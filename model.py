@@ -170,8 +170,3 @@ class ProductRecommendationEngine:
             return pd.merge(self.data, data_grouped, on="id")[["name", "brand", "pos_sentiment_percent"]].drop_duplicates().sort_values(['pos_sentiment_percent', 'name'], ascending=[False, True])
         else:
             print("User doesn't exist. Please try again later")
-
-# if __name__ == "__main__":
-#     x = ProductRecommendationEngine()
-#     d = x.predict_sentiment("Awesome product", "Really Loved it")
-#     print(d)
