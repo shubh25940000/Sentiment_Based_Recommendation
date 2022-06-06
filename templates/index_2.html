@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Based Product Recommendation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/css/style_29.css">
+
+</head>
+
+<body>
+    <div class="header">
+      <h1>Sentiment Based Product Recommendation</h1>
+      <p>Get the sentiment value for any product review and also get recommendations</p>
+    </div>
+    <div class="login-dark">
+
+        <form id = "form" method="post" action="/predictSentiment">
+        <div class="row vstack gap-3">
+
+          <div class="row">
+            <label for="reviewText" class="form-label"
+              >Enter your Review here</label
+            >
+            <textarea
+              class="form-control"
+              name="reviewText"
+              rows="3"
+              id="reviewText"
+            ></textarea>
+            <label for="reviewTitle" class="form-label"
+              >Enter your Review title here</label
+            >
+            <textarea
+              class="form-control"
+              name="reviewTitle"
+              rows="3"
+              id="reviewTitle"
+            ></textarea>
+          </div>
+          <div class="row">
+            <div class="col align-self-end">
+              <input
+                type="submit"
+                class="btn btn-primary float-end"
+                value="Predict Sentiment"
+
+              />
+            </div>
+          </div>
+          <div class="row">
+            {% if sentiment == 1%}
+            <div class="alert alert-success" role="alert">
+              Entered Review Text is predicted to be positive with probability = {{ sentiment_prob }} %
+            </div>
+            {% elif sentiment == 0%}
+            <div class="alert alert-danger" role="alert">
+              Entered Review Text is predicted to be negative with probability = {{ sentiment_prob }} %
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+      </form>
+        <form id = "form_2" action="/predict" method="post" >
+            <div class="row vstack gap-3">
+
+              <div class="row">
+                <label for="userName" class="form-label"
+                  >Enter your username here</label>
+                <textarea
+                  class="form-control"
+                  name="userName"
+                  rows="1"
+                  id="userName"
+                ></textarea>
+
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <input
+                    type="submit"
+                    class="btn btn-primary"
+                    value="Get Recommendations"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                {% if row_data %}
+                <table class="table table-striped table-hover">
+
+                  <caption>
+                    List of Top 5 Recommended Products
+                  </caption>
+                  <thead>
+                    <tr>
+
+                      <td>Product Name</td>
+                      <td>Brand</td>
+                      <td>Recommedation %</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in row_data %}
+                    <tr>
+                      {% for col, row_ in zip(column_names, row) %}
+                      <td>{{row_}}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% endif %}
+              </div>
+
+        </div>
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
