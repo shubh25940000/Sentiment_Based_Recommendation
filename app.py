@@ -1,5 +1,3 @@
-from email import header
-from operator import index
 from flask import Flask, request, render_template
 from model import ProductRecommendationEngine
 
