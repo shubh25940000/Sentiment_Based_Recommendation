@@ -1,6 +1,6 @@
 from email import header
 from operator import index
-from flask import Flask, request, render_template, jsonify, flash
+from flask import Flask, request, render_template
 from model import ProductRecommendationEngine
 
 
@@ -26,7 +26,6 @@ def prediction():
     if(not(items is None)):
         print(f"retrieving items....{len(items)}")
         list(items.values.tolist())
-        # data=[items.to_html(classes="table-striped table-hover", header="true",index=False)
         return render_template("index_2.html", column_names=items.columns.values, row_data=list(items.values.tolist()), zip=zip)
     else:
         return render_template("index_2.html", message="User Name doesn't exists, No product recommendations at this point of time!")
@@ -43,7 +42,6 @@ def predict_sentiment():
         return render_template("index_2.html", sentiment=pred_sentiment, sentiment_prob = pred_sentiment_value)
     else:
         pred_sentiment = "Please enter valid review text and title"
-        flash("Please enter valid review text and title")
         return render_template("index_2.html", message=pred_sentiment)
 
 if __name__ == '__main__':

@@ -20,14 +20,6 @@ lemma = WordNetLemmatizer()
 import warnings
 warnings.filterwarnings("ignore")
 pd.set_option("display.max_column", None)
-# nltk.download("all")
-# nltk.download('stopwords')
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
-# nltk.download('wordnet')
-# nltk.download('omw-1.4')
-
-
 
 
 class ProductRecommendationEngine:
@@ -104,9 +96,18 @@ class ProductRecommendationEngine:
                                                x['reviews_title'], axis=1)
         pattern = re.compile("[0-9]+|[$|\.]|www\.\S+")
         pattern_2 = re.compile("|[^\w\s]")
-        data['tokenized_reviews'] = data['Feature'].apply(lambda x: " ".join([str.lower(lemma.lemmatize(i, self.get_postags(i)))
-                                                                              for i in nltk.word_tokenize(re.sub(pattern_2, "",
-                                                                                                                 re.sub(pattern, "", x)))]))
+        # data['tokenized_reviews'] = data['Feature'].apply(lambda x: " ".join([str.lower(lemma.lemmatize(i, self.get_postags(i)))
+        #                                                                       for i in nltk.word_tokenize(re.sub(pattern_2, "",
+        #                                                                                                          re.sub(pattern, "", x)))]))
+
+        """
+        Removed get_postags due to timeout error in heroku.
+        """
+        data['tokenized_reviews'] = data['Feature'].apply(
+            lambda x: " ".join([str.lower(lemma.lemmatize(i))
+                                for i in nltk.word_tokenize(re.sub(pattern_2, "",
+                                                                   re.sub(pattern, "", x)))]))
+
         data['tokenized_reviews'] = data['tokenized_reviews'].apply(lambda x: self.normalize(x))
         print("Text Preprocessed successfully")
         return data
