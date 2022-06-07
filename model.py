@@ -104,11 +104,11 @@ class ProductRecommendationEngine:
         Removed get_postags due to timeout error in heroku.
         """
         data['tokenized_reviews'] = data['Feature'].apply(
-            lambda x: " ".join([str.lower(lemma.lemmatize(i))
+            lambda x: self.normalize(" ".join([str.lower(lemma.lemmatize(i))
                                 for i in nltk.word_tokenize(re.sub(pattern_2, "",
-                                                                   re.sub(pattern, "", x)))]))
+                                                                   re.sub(pattern, "", x)))])))
 
-        data['tokenized_reviews'] = data['tokenized_reviews'].apply(lambda x: self.normalize(x))
+        # data['tokenized_reviews'] = data['tokenized_reviews'].apply(lambda x: self.normalize(x))
         print("Text Preprocessed successfully")
         return data
 
